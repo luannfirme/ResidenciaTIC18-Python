@@ -42,31 +42,41 @@ def adicionar_tarefa(descricao):
     print("\nTarefa registrada!!!")
     
 
-
 def marcar_tarefa_realizada(id):
-    if id > len(tarefas) or id <= 0:
-        print("\nTarefa não encontrada ou identificador invalido.")
-    else:
-        index = id - 1
-        if not tarefas[index]["Concluida"]:
-            tarefas[index]["Concluida"] = True
-            tarefa_concluida = tarefas.pop(index)
-            tarefas.insert(0, tarefa_concluida)
+    tarefa_encontrada = None
+    for tarefa in tarefas:
+        if tarefa["ID"] == id:
+            tarefa_encontrada = tarefa
+            break
+
+    if tarefa_encontrada:
+        if not tarefa_encontrada["Concluida"]:
+            tarefa_encontrada["Concluida"] = True
+            tarefas.remove(tarefa_encontrada)
+            tarefas.insert(0, tarefa_encontrada)
             salvar_tarefas(tarefas)
-            print("\nTarefa marcada como realizada!!!")
+            print("\nTarefa marcada como realizada e movida para o topo da lista!!!")
         else:
-            print("\nEsta tarefa ja foi realizada anteriormente.")
+            print("\nEsta tarefa já foi realizada anteriormente.")
+    else:
+        print("\nTarefa não encontrada ou identificador inválido.")
+
 
 
 def editar_tarefa(id):
-    if id > len(tarefas) or id <= 0:
-        print("\nTarefa não encontrada ou identificador invalido.")
-    else:
-        index = id - 1
-        nova_descricao = input("Digite a nova descricao da tarefa: ").capitalize()
-        tarefas[index]["Descricao"] = nova_descricao
+    tarefa_encontrada = None
+    for tarefa in tarefas:
+        if tarefa["ID"] == id:
+            tarefa_encontrada = tarefa
+            break
+
+    if tarefa_encontrada:
+        nova_descricao = input("Digite a nova descrição da tarefa: ").capitalize()
+        tarefa_encontrada["Descricao"] = nova_descricao
         salvar_tarefas(tarefas)
         print(f"\nTarefa {id} editada !!!")
+    else:
+        print("\nTarefa não encontrada ou identificador inválido.")
 
 
 def exibir_tarefas():
