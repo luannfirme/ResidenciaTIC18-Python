@@ -77,3 +77,4 @@ def consultar_preco():
             return
 
     print("Produto não encontrado.")
+    
